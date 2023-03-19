@@ -7,8 +7,11 @@
 # General application configuration
 import Config
 
+config :ash, :use_all_identities_in_manage_relationship?, false
+
 config :poc,
-  ecto_repos: [Poc.Repo]
+  ecto_repos: [Poc.Repo],
+  ash_apis: [Poc.HomeVisitService]
 
 # Configures the endpoint
 config :poc, PocWeb.Endpoint,
