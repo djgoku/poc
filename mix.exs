@@ -52,7 +52,8 @@ defmodule Poc.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:ash, "~> 2.6.21"},
       {:ash_postgres, "~> 1.3.16"},
-      {:ash_phoenix, "~> 1.2.10"}
+      {:ash_phoenix, "~> 1.2.10"},
+      {:mix_test_watch, "~> 1.1"}
     ]
   end
 
