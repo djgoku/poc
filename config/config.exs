@@ -7,7 +7,9 @@
 # General application configuration
 import Config
 
-config :ash, :use_all_identities_in_manage_relationship?, false
+config :ash,
+  use_all_identities_in_manage_relationship?: false,
+  disable_async?: true
 
 config :poc,
   ecto_repos: [Poc.Repo],
