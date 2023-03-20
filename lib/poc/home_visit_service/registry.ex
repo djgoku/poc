@@ -4,5 +4,6 @@ defmodule Poc.HomeVisitService.Registry do
 
   entries do
     entry(Poc.HomeVisitService.User)
+    entry(Poc.HomeVisitService.Visit)
   end
 end

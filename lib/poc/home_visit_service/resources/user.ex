@@ -30,4 +30,10 @@ defmodule Poc.HomeVisitService.User do
   identities do
     identity(:email, [:email])
   end
+
+  relationships do
+    has_many(:visits, Poc.HomeVisitService.Visit) do
+      destination_attribute(:member_id)
+    end
+  end
 end
