@@ -27,6 +27,7 @@ defmodule Poc.HomeVisitService.Account do
       allow_nil?(false)
     end
 
+    # we should make sure this is a positive integer
     attribute :minutes, :integer do
       allow_nil?(false)
     end
