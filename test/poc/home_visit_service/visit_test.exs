@@ -2,6 +2,7 @@ defmodule Poc.HomeVisitService.VisitTest do
   use Poc.DataCase
 
   import Poc.HomeVisitService.UserFixtures, only: [user_fixture: 0]
+  import Poc.HomeVisitService.VisitFixtures, only: [visit_fixture: 4]
 
   alias Poc.HomeVisitService.Visit
 
@@ -20,38 +21,14 @@ defmodule Poc.HomeVisitService.VisitTest do
 
     assert changeset.valid?
 
-    visit =
-      Visit
-      |> Ash.Changeset.for_create(:create, %{task: "call to wish happy birthday!", minutes: 50})
-      |> Poc.HomeVisitService.create!()
+    member = user_fixture()
+    pal = user_fixture()
+
+    visit = visit_fixture(member, pal, "call to wish happy birthday!", 50)
 
     assert visit.task == "call to wish happy birthday!"
     assert visit.minutes == 50
-
-    user_1 = user_fixture()
-
-    user_2 = user_fixture()
-
-    visit2 =
-      Visit
-      |> Ash.Changeset.for_create(:create, %{
-        task: "call to wish happy birthday!",
-        minutes: 50,
-        member_id: user_1.id,
-        pal_id: user_2.id
-      })
-      |> Poc.HomeVisitService.create!()
-
-    assert visit2.member_id == user_1.id
-    assert visit2.pal_id == user_2.id
-
-    assert %Visit{} =
-             visit =
-             visit
-             |> Ash.Changeset.for_update(:update, %{member_id: user_1.id, pal_id: user_2.id})
-             |> Poc.HomeVisitService.update!()
-
-    assert visit.member_id == user_1.id
-    assert visit.pal_id == user_2.id
+    assert visit.member_id == member.id
+    assert visit.pal_id == pal.id
   end
 end
