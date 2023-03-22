@@ -1,20 +1,9 @@
 defmodule Poc.HomeVisitService.VisitTest do
   use Poc.DataCase
 
-  alias Poc.HomeVisitService.User
+  import Poc.HomeVisitService.UserFixtures, only: [user_fixture: 0]
+
   alias Poc.HomeVisitService.Visit
-
-  @valid_user_params_1 %{
-    first_name: "johnny",
-    last_name: "five",
-    email: "johnny-five@example.com"
-  }
-
-  @valid_user_params_2 %{
-    first_name: "five",
-    last_name: "johnny",
-    email: "five-johnny@example.com"
-  }
 
   test "create" do
     changeset = Visit |> Ash.Changeset.for_create(:create, %{})
@@ -39,15 +28,9 @@ defmodule Poc.HomeVisitService.VisitTest do
     assert visit.task == "call to wish happy birthday!"
     assert visit.minutes == 50
 
-    user_1 =
-      User
-      |> Ash.Changeset.for_create(:create, @valid_user_params_1)
-      |> Poc.HomeVisitService.create!()
+    user_1 = user_fixture()
 
-    user_2 =
-      User
-      |> Ash.Changeset.for_create(:create, @valid_user_params_2)
-      |> Poc.HomeVisitService.create!()
+    user_2 = user_fixture()
 
     visit2 =
       Visit
@@ -66,8 +49,6 @@ defmodule Poc.HomeVisitService.VisitTest do
              visit =
              visit
              |> Ash.Changeset.for_update(:update, %{member_id: user_1.id, pal_id: user_2.id})
-             # |> Ash.Changeset.manage_relationship(:member, [user_1], on_lookup: :relate)
-             # |> Ash.Changeset.manage_relationship(:pal, [user_2], on_lookup: :relate)
              |> Poc.HomeVisitService.update!()
 
     assert visit.member_id == user_1.id
