@@ -3,6 +3,7 @@ defmodule Poc.HomeVisitService.Registry do
     extensions: [Ash.Registry.ResourceValidations]
 
   entries do
+    entry(Poc.HomeVisitService.Account)
     entry(Poc.HomeVisitService.User)
     entry(Poc.HomeVisitService.Visit)
   end
