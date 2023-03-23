@@ -1,18 +1,56 @@
-# Poc
+* Poc
 
-To start your Phoenix server:
+** Instructions
+git clone git@github.com:djgoku/poc.git
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+Elixir 1.14+ and Postgresql 14+
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+*** iex
+#+begin_example elixir
+$ mix deps.get
+$ mix ash_postgres.create
+$ mix ash_postgres.migrate
+$ iex -S mix
+#+end_example
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+See [[file:test/poc/home_visit_service/main_test.exs][main_test.exs]] tests all the public functions a user using our
+library would use.
 
-## Learn more
+- create a user (member or pal)
+  ~Poc.HomeVisitService.Main.create_user/1~
+- add a starting balance to a user
+  ~Poc.HomeVisitService.Main.add_starting_balance/2~
+- request a visit ~Poc.HomeVisitService.Main.request_visit/4~
+- check a user balance ~Poc.HomeVisitService.Main.user_balance/1~
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+*** testing
+Most of the testing is in the [[file:test/poc/home_visit_service/][Home Visit Service resources]] directory.
+#+begin_example
+$ cd poc
+$ mix test
+#+end_example
+
+** Assumptions
+A user of Poc won't try to break the application or push it outside
+the requirements. :D This is a quick and dirty solution. I assume you
+have some knowledge of the Ash Framework.
+
+Outside of the core functionality, we didn't add a lot of guard rails
+or check so a user can like input a lot of insufficient data.
+
+With the library created, we meet the requirements that you can create
+users, and users can be either a member or a pal; a member can only
+request a visit if they have enough credits for the requested visit.
+
+Concerning rounding. The
+~Poc.HomeVisitService.Main.calculate_overhead/1~ is written flexibly,
+allowing many different ways to calculate overhead. So if we need more
+or less precision, we can do that.
+
+** Design Decisions and Technology Choices
+I have wanted to use Ash in a project, and I chose to use it here. It
+has been a learning experience. This solution could be better, and I
+have some learning with Ash. I like how interfacing with Ash is very
+uniform and to the point. You have a resource, make a changeset from
+it, and do some action like create, read, update, or delete with the
+changeset.
