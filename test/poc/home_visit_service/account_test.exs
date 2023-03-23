@@ -6,7 +6,6 @@ defmodule Poc.HomeVisitService.AccountTest do
   import Poc.HomeVisitService.VisitFixtures, only: [visit_fixture: 4]
 
   alias Poc.HomeVisitService.Account
-  alias Poc.HomeVisitService.Visit
 
   test "create" do
     changeset = Account |> Ash.Changeset.for_create(:create, %{})
